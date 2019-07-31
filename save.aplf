@@ -1,0 +1,12 @@
+r←save message;user;u;pass;p;os;repo;git;remote;commit;host;push;status
+
+⍞←uprompt←'Git Username: '
+user←(≢uprompt)↓⍞
+⍞←pprompt←'Git Password: '
+pass←(≢pprompt)↓⍞
+
+status←'status'
+commit←S'commit -am "{message}"'
+push  ←S'(echo {user} & echo {pass}) | git push'
+
+r←↑run status commit push

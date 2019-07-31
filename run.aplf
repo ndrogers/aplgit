@@ -1,0 +1,27 @@
+r←run cmds;user;u;pass;p;os;repo;git;remote;commit;host;push
+
+:If (0=⎕NC) '⎕SE.Link.Links'
+  ⎕←'Cannot execute git command: no repository is linked.'
+  →
+:EndIf
+
+os    ←'-64'~⍨⊃#⎕WG'APLVersion'
+⍝ Add detect multiple linked directories
+repo  ←⎕SE.Link.Links.dir
+git   ←{↑⎕SH S'cd {⊃repo} & git ',⍵}
+config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
+
+:If ~∧/'user.name' 'user.email' ∊ config
+  nl←⎕UCS 13
+  info←S'Please ensure that your global git settings are configured.{nl}For more information, please vist:{nl}https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#_your_identity'
+  ⎕←info
+  :Return
+:EndIf
+
+(keys vals)←↓⍉config
+remote←(⊃vals⌷⍨⊂keys⍳⊂'remote.origin.url')
+host  ←∊{⍺'/'⍵}/1↓'/'(≠⊆⊢) remote
+
+r←{result←git ⍵⋄result}¨ cmds
+
+

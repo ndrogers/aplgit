@@ -1,0 +1,2 @@
+r←status
+r←⊃run (⊂'status')
