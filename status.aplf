@@ -1,2 +1,2 @@
 r←status
-r←⊃run (⊂'status')
+r←⊃run 'status'

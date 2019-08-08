@@ -1,2 +1,5 @@
 r←update
 r←run 'pull'
+⎕←'Updating: Please wait...'
+⎕DL 5
+⎕SE.Link.Refresh ¨⎕SE.Link.Links.ns

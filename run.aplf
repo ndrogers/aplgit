@@ -7,8 +7,8 @@ r←run cmds;user;u;pass;p;os;repo;git;remote;commit;host;push
 
 os    ←'-64'~⍨⊃#⎕WG'APLVersion'
 ⍝ Add detect multiple linked directories
-repo  ←⎕SE.Link.Links.dir
-git   ←{↑⎕SH S'cd {⊃repo} & git ',⍵}
+repo  ←⊃⎕SE.Link.Links.dir
+git   ←{↑⎕SH S'cd {repo} & git ',⍵}
 config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
 
 :If ~∧/'user.name' 'user.email' ∊ config
@@ -22,6 +22,6 @@ config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
 remote←(⊃vals⌷⍨⊂keys⍳⊂'remote.origin.url')
 host  ←∊{⍺'/'⍵}/1↓'/'(≠⊆⊢) remote
 
-r←{result←git ⍵⋄result}¨ cmds
+r←{result←git ⍵⋄result}¨ ⊆cmds
 
 
