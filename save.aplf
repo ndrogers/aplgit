@@ -1,6 +1,5 @@
-r←save message;user;u;pass;p;os;repo;git;remote;commit;host;push;status;st;co;pu;files;id;gui;modified;btwnBrackets;split
-
-
+r←save message;user;u;pass;p;os;repo;git;remote;commit;host;push;status;st;co;pu;files;id;gui;modified;btwnBrackets;split;⎕IO
+⎕IO←0
 status←'status'
 commit←S'commit -am "{message}"'
 push  ←'push'
