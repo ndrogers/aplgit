@@ -1,14 +1,15 @@
-r←save message;user;u;pass;p;os;repo;git;remote;commit;host;push;status;st;co;pu;files;id;gui;modified;btwnBrackets;split;⎕IO
+r←save message;user;u;pass;p;os;repo;git;remote;commit;host;push;status;st;co;pu;files;id;gui;modified;btwnBrackets;split;⎕IO;btwn
 ⎕IO←0
 status←'status'
 commit←S'commit -am "{message}"'
 push  ←'push'
 
 ⍝ local helper functions
-split←{⊃⌽⍺(≠⊆⊢)⍵}                    ⍝ last item split by a character
-files←{'Files Saved:'(↑⍵)}           ⍝ display a list of files to the user
-id←{'Id:' (' 'split ⍵)}              ⍝ display commit hash id to the user
-gui←{(⍺ '')⍪↑(id(⊃⊆⍵))(files (⊃⌽⊆⍵))}  ⍝ format results
+split←⊃∘⌽ (≠⊆⊢)                          ⍝ last item split by a character
+files←{'Files Saved:'(↑⍵)}               ⍝ display a list of files to the user
+id   ←{'Id:' (' 'split ⍵)}               ⍝ display commit hash id to the user
+gui  ←{(⍺ '')⍪↑(id(⊃⊆⍵))(files (⊃⌽⊆⍵))}  ⍝ format results
+btwn ←{⍵/⍨(∨\'['=⍵)∧∧\']'≠⍵}             ⍝ [find text between brackets] ignoring the rest
 
 ⍝ A list of modified files to be commited
 st←⊃run status
@@ -16,12 +17,14 @@ modified←{':' split ⍵~' '}¨↓st⌿⍨∨/'modified'⍷st
 
 :If 0≠⍴modified
   ⍝ There exists modified files, commit and push required
-  (co pu)←run  commit push
-  btwnBrackets←{⍵/⍨(∨\'['=⍵)∧∧\']'≠⍵}⊣⌿co ⍝ ⊃'\[.*\]'⎕S'&'⊣⌿co
+  (co pu)←run commit push
+  btwnBrackets←btwn⊣⌿co ⍝ ⊃'\[.*\]'⎕S'&'⊣⌿co
   r←'Saved Successfully' gui btwnBrackets modified
+
 :Else
   ⍝ There are no modified files. Nothing to commit
   r←'Nothing to save' gui 'None'
+
 :EndIf
 
 
