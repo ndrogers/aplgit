@@ -1,0 +1,23 @@
+linkRepo repo;repos;dir;options;_ignore;names;pwd;⎕IO
+⎕IO←0
+:If ~⎕NEXISTS 'repos.json'
+  pwd←⎕SH ('Windows'≡'-64'~⍨⊃#⎕WG'APLVersion')⌷'ls' 'dir'
+  ⎕←S'Does not exist: {pwd}/repos.json'
+  :Return
+:EndIf
+
+repos←0 ⎕JSON⊃'UTF-8'⎕NGET'repos.json'
+dir←(repos.name⍳⊂repo)⊃repos.path,⊂''
+
+:If 0=≢dir
+  names←∊{⍺','⍵}/repos.name
+  ⎕←↑S¨'Repository {repo} not found' 'Available repositories: {names}'
+  :Return
+:EndIf
+
+options←⎕NS''
+options.watch←'ns'
+_ignore←options ⎕SE.Link.Create # dir
+
+
+
