@@ -1,5 +1,12 @@
-linkRepo repo;repos;dir;options;_ignore;names;pwd;⎕IO
+{shouldWatchDir}linkRepo repo;repos;dir;options;_ignore;names;pwd;⎕IO
 ⎕IO←0
+⍝ ⍬←L f R
+⍝ R ←→ name of repository
+⍝ L ←→ 0 or 1 if the ns should only watch directory, otherwise NS
+:If 0=⎕NC shouldWatchDir
+  shouldWatchDir←0
+:EndIf
+
 :If ~⎕NEXISTS 'repos.json'
   pwd←⎕SH ('Windows'≡'-64'~⍨⊃#⎕WG'APLVersion')⌷'ls' 'dir'
   ⎕←S'Does not exist: {pwd}/repos.json'
@@ -16,7 +23,7 @@ dir←(repos.name⍳⊂repo)⊃repos.path,⊂''
 :EndIf
 
 options←⎕NS''
-options.watch←'ns'
+options.watch←⊃shouldWatchDir⌷'ns' 'dir'
 _ignore←options ⎕SE.Link.Create # dir
 
 
