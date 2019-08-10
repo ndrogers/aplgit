@@ -5,7 +5,7 @@ commit←S'commit -am "{message}"'
 push  ←'push'
 
 ⍝ local helper functions
-split←⊃∘⌽ (≠⊆⊢)                          ⍝ last item split by a character
+split←⊃∘⌽ (≠⊆⊢)                          ⍝ last item after split
 files←{'Files Saved:'(↑⍵)}               ⍝ display a list of files to the user
 id   ←{'Id:' (' 'split ⍵)}               ⍝ display commit hash id to the user
 gui  ←{(⍺ '')⍪↑(id(⊃⊆⍵))(files (⊃⌽⊆⍵))}  ⍝ format results

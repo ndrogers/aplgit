@@ -1,4 +1,4 @@
-{shouldWatchDir}linkRepo repo;repos;dir;options;_ignore;names;pwd;⎕IO
+{shouldWatchDir}linkRepo repo;repos;dir;options;_ignore;names;pwd;cmd;⎕IO
 ⎕IO←0
 ⍝ ⍬←L f R
 ⍝ R ←→ name of repository
@@ -7,16 +7,19 @@
   shouldWatchDir←0
 :EndIf
 
-:If ~⎕NEXISTS 'repos.json'
-  pwd←⎕SH ('Windows'≡'-64'~⍨⊃#⎕WG'APLVersion')⌷'ls' 'dir'
+⍝ repos.json must be a json file containing a json array
+⍝[{"name":"blah", "path": "path/to/blah"}, {...}, ...]
+:If ~⎕NEXISTS 'repos.json' ⍝ repos.json doesn't exit
+  cmd←('Windows'≡'-64'~⍨⊃#⎕WG'APLVersion')⌷'ls' 'dir'
+  pwd←⎕SH cmd
   ⎕←S'Does not exist: {pwd}/repos.json'
   :Return
 :EndIf
 
 repos←0 ⎕JSON⊃'UTF-8'⎕NGET'repos.json'
-dir←(repos.name⍳⊂repo)⊃repos.path,⊂''
+dir←(repos.name⍳⊂repo)⊃repos.path,⊂'' ⍝ find the path of the repo by name
 
-:If 0=≢dir
+:If 0=≢dir ⍝ name not in repos
   names←∊{⍺','⍵}/repos.name
   ⎕←↑S¨'Repository {repo} not found' 'Available repositories: {names}'
   :Return
