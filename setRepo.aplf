@@ -1,4 +1,4 @@
-linkRepo options;repos;dir;options;_ignore;names;pwd;cmd;⎕IO;defaults;defs;shouldWatchDir;dir;name;repo;isDir;isName
+setRepo options;repos;dir;options;_ignore;names;pwd;cmd;⎕IO;defaults;defs;shouldWatchDir;dir;name;repo;isDir;isName
 ⎕IO←0
 ⍝ ⍬←f R
 ⍝ R      ←→ a ⎕NS'' defining the following names
