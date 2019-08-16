@@ -1,5 +1,5 @@
-r←run cmds;user;u;pass;p;os;repo;git;remote;commit;host;push
-
+r←run cmds;⎕IO;user;u;pass;p;os;repo;git;remote;commit;host;push
+⎕IO←0
 :If (0=⎕NC) '⎕SE.Link.Links'
   ⎕←'Cannot execute git command: no repository is linked.'
   →
@@ -8,7 +8,8 @@ r←run cmds;user;u;pass;p;os;repo;git;remote;commit;host;push
 os    ←'-64'~⍨⊃#⎕WG'APLVersion'
 ⍝ Add detect multiple linked directories
 repo  ←⊃⎕SE.Link.Links.dir
-git   ←{↑⎕SH S'cd {repo} & git ',⍵}
+and   ←(1+'Windows'≢os)/'&'
+git   ←{↑⎕SH S'cd {repo} {and} git ',⍵}
 config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
 
 :If ~∧/'user.name' 'user.email' ∊ config
