@@ -1,4 +1,4 @@
-r←update;_
+r←update;_;log
 pull←run 'pull --all'
 log←⎕NS''
 :If (∨/⍣2)'Already up to date.'⍷⊃pull
