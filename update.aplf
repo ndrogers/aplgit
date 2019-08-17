@@ -1,6 +1,6 @@
 r←update;_;log
-pull←run 'pull --all'
 log←⎕NS''
+pull←run 'pull --all'
 :If (∨/⍣2)'Already up to date.'⍷⊃pull
   log.message←pull
 :Else

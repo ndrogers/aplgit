@@ -1,2 +1,3 @@
 r←status
+log←⎕NS''
 r←⊃run 'status'

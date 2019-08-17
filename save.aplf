@@ -1,5 +1,6 @@
 r←save message;user;u;pass;p;os;repo;git;remote;commit;host;push;status;st;co;pu;files;id;modified;btwnBrackets;split;⎕IO;btwn;log
 ⎕IO←0
+log←⎕NS''
 status←'status'
 commit←S'commit -am "{message}"'
 push  ←'push'
@@ -12,7 +13,6 @@ btwn ←{⍵/⍨(∨\'['=⍵)∧∧\']'≠⍵}⍝ [find text between brackets] i
 st←⊃run status
 modified←{':' split ⍵~' '}¨↓st⌿⍨∨/'modified'⍷st
 
-log←⎕NS''
 :If 0≠⍴modified
   ⍝ There exists modified files, commit and push required
   (co pu)←run commit push
