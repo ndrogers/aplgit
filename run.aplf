@@ -23,6 +23,10 @@ config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
 remote←(⊃vals⌷⍨⊂keys⍳⊂'remote.origin.url')
 host  ←∊{⍺'/'⍵}/1↓'/'(≠⊆⊢) remote
 
-r←{result←git ⍵⋄result}¨ ⊆cmds
+results←{result←git ⍵⋄result}¨ ⊆cmds
+:If raw
+  gui results{⍎∊'log.'⍺'←⍵'}¨{⊃' '(≠⊆⊢)⍵}¨cmds
+:EndIf 
+r←results
 
 
