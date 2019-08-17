@@ -1,6 +1,11 @@
 r←save message;user;u;pass;p;os;repo;git;remote;commit;host;push;status;st;co;pu;files;id;modified;btwnBrackets;split;⎕IO;btwn;log
 ⎕IO←0
 log←⎕NS''
+:If 0=≢message
+  log.message←'You must include a message to save'
+  r←gui log
+  :Return
+:EndIf
 status←'status'
 commit←S'commit -am "{message}"'
 push  ←'push'
