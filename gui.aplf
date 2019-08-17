@@ -1,4 +1,5 @@
 r←gui ns;display;names
+
   ⍝ function takes a namespace
   ⍝ displays the namespace 
   ⍝ not implemented

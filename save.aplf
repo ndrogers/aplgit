@@ -6,25 +6,24 @@ push  ←'push'
 
 ⍝ local helper functions
 split←⊃∘⌽ (≠⊆⊢)                          ⍝ last item after split
-⍝files←{'Files Saved:'(↑⍵)}               ⍝ display a list of files to the user
-⍝id   ←{'Id:' (' 'split ⍵)}               ⍝ display commit hash id to the user
-⍝gui  ←{('message:' ⍺)⍪↑(id(⊃⊆⍵))(files (⊃⌽⊆⍵))}  ⍝ format results
 btwn ←{⍵/⍨(∨\'['=⍵)∧∧\']'≠⍵}             ⍝ [find text between brackets] ignoring the rest
 
 ⍝ A list of modified files to be commited
 st←⊃run status
 modified←{':' split ⍵~' '}¨↓st⌿⍨∨/'modified'⍷st
 
+log←⎕NS''
 :If 0≠⍴modified
   ⍝ There exists modified files, commit and push required
   (co pu)←run commit push
-  btwnBrackets←btwn⊣⌿co ⍝ ⊃'\[.*\]'⎕S'&'⊣⌿co
-  r←'Saved successfully' gui btwnBrackets modified
-
+  log.message←'Saved successfully'
+  log.id←' 'split btwn⊣⌿co 
+  log.files←modified
 :Else
   ⍝ There are no modified files. Nothing to commit
-  r←'Nothing to save' gui 'None'
-
+  log.message←'No changes to save.'
 :EndIf
+
+r←gui log
 
 

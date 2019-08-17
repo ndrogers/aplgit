@@ -1,7 +1,15 @@
 r←update;_
-r←run 'pull --all'
+raw←run 'pull --all'
+log←⎕NS''
+:If (∨/⍣2)'Already up to date.'⍷⊃raw
+  log.message←raw
+:Else
+  log.message←'TODO(nathan):implement updated files'
+:EndIf
+
 :If ~∨/'dir' 'both'≡¨1↑⎕SE.Link.Links.watch
   ⍝ There is an issue with refreshing a namespace which is using FSW.
   ⍝ If they are using the FSW, refreshing "shouldn't" be necessary
-  ⎕SE.Link.Refresh ⎕SE.Link.Links.ns
+  _←⎕SE.Link.Refresh ⎕SE.Link.Links.ns
 :EndIf
+r←gui log
