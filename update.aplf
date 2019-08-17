@@ -1,8 +1,8 @@
 r←update;_
-raw←run 'pull --all'
+pull←run 'pull --all'
 log←⎕NS''
-:If (∨/⍣2)'Already up to date.'⍷⊃raw
-  log.message←raw
+:If (∨/⍣2)'Already up to date.'⍷⊃pull
+  log.message←pull
 :Else
   log.message←'TODO(nathan):implement updated files'
 :EndIf

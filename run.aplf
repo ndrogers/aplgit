@@ -1,5 +1,6 @@
-r←run cmds;⎕IO;user;u;pass;p;os;repo;git;remote;commit;host;push
+r←run cmds;⎕IO;user;u;pass;p;os;repo;git;remote;commit;host;push;_
 ⎕IO←0
+commands←⊆cmds
 :If (0=⎕NC) '⎕SE.Link.Links'
   ⎕←'Cannot execute git command: no repository is linked.'
   →
@@ -23,9 +24,13 @@ config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
 remote←(⊃vals⌷⍨⊂keys⍳⊂'remote.origin.url')
 host  ←∊{⍺'/'⍵}/1↓'/'(≠⊆⊢) remote
 
-results←{result←git ⍵⋄result}¨ ⊆cmds
-:If raw
-  gui results{⍎∊'log.'⍺'←⍵'}¨{⊃' '(≠⊆⊢)⍵}¨cmds
+results←{result←git ⍵⋄result}¨ commands
+log←⎕NS''
+:If 0<⎕NC'raw'
+:AndIf raw
+  log.message←'Raw console output. To disable, set raw←0'
+  _←results{⍎∊'log.'⍵'←⍺'}¨{⊃' '(≠⊆⊢)⍵}¨commands
+  gui log
 :EndIf 
 r←results
 
