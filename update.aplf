@@ -1,5 +1,5 @@
 r←update;_
-r←run 'pull'
+r←run 'pull --all'
 :If ~∨/'dir' 'both'≡¨1↑⎕SE.Link.Links.watch
   ⍝ There is an issue with refreshing a namespace which is using FSW.
   ⍝ If they are using the FSW, refreshing "shouldn't" be necessary
