@@ -1,0 +1,22 @@
+gui←{
+  ⍝ function takes a namespace
+  ⍝ displays the namespace 
+  ⍝ not implemented
+  ⍝ display should appear as follows
+  ⍝ left column will display names in the namespace as 'name:'
+  ⍝ right column will be a table if value is a nested vactor
+  ⍝ this should be the default display for all messages from this git library
+  ⍝┌────────────┬──────────────────┐
+  ⍝│message:    │Saved successfully│
+  ⍝├────────────┼──────────────────┤
+  ⍝│Id:         │c2dd6b3           │
+  ⍝├────────────┼──────────────────┤
+  ⍝│Files Saved:│TCG.aplf          │
+  ⍝│            │file2.aplf        │
+  ⍝│            │file3.aplf        │
+  ⍝│            │file4.aplf        │
+  ⍝│            │file5.aplf        │
+  ⍝│            │file6.aplf        │
+  ⍝└────────────┴──────────────────┘
+      
+}
