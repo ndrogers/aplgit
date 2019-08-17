@@ -1,4 +1,4 @@
-gui←{
+r←gui ns;display;names
   ⍝ function takes a namespace
   ⍝ displays the namespace 
   ⍝ not implemented
@@ -18,5 +18,9 @@ gui←{
   ⍝│            │file5.aplf        │
   ⍝│            │file6.aplf        │
   ⍝└────────────┴──────────────────┘
+  display←↑{⍵ (↑ns⍎⍵)}¨
+  m←⊂'message' 
+  names←m, (m~⍨ns.⎕NL¯2) ⍝ message should be the first displayed
+  r←display names
+
       
-}

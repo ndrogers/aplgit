@@ -1,5 +1,6 @@
 setRepo options;repos;dir;options;_ignore;names;pwd;cmd;⎕IO;defaults;defs;shouldWatchDir;dir;name;repo;isDir;isName
-⎕IO←0
+raw ⎕IO←0 ⍝ raw displays data as raw console output
+
 ⍝ ⍬←f R
 ⍝ R      ←→ a ⎕NS'' defining the following names
 ⍝ R.dir  ←→ directory of the repo
