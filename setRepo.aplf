@@ -6,11 +6,14 @@ setRepo options;repos;dir;options;_ignore;names;pwd;cmd;⎕IO;defaults;defs;shou
 ⍝ R.name ←→ name of a repo defined in repos.json 
 ⍝ R.shouldWatchDir←→ tells the link to watch dir if 1 or ns if not defined
 ⍝ at least one of R.(dir name) must be defined
-defaults←⎕JSON'{"shouldWatchDir":0,"dir":"","name":""}'
+defaults←⎕JSON'{"shouldWatchDir":0,"dir":"","name":"","flatten":0}'
 defs←⎕NS defaults
 'defs'⎕NS options
-(shouldWatchDir dir name)←defs⍎¨'shouldWatchDir' 'dir' 'name'
+(shouldWatchDir dir name flatten)←defs⍎¨'shouldWatchDir' 'dir' 'name' 'flatten'
 
+:If defs.flatten
+  shouldWatchDir←1
+:EndIf
 ⍝⍝⍝ This branching code defines dir←→location of the repository
 ⍝⍝⍝ depending on repository name or directory location
 ⍝⍝⍝ TODO: Replace the existing early returns with proper error handling
@@ -46,5 +49,6 @@ defs←⎕NS defaults
 :EndIf
 
 options←⎕NS''
+options.flatten←defs.flatten
 options.watch←⊃shouldWatchDir⌷'ns' 'dir'
 _ignore←options ⎕SE.Link.Create # dir
