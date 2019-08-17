@@ -5,10 +5,10 @@ commit←S'commit -am "{message}"'
 push  ←'push'
 
 ⍝ local helper functions
-split←⊃∘⌽ (≠⊆⊢)                          ⍝ last item after split
-btwn ←{⍵/⍨(∨\'['=⍵)∧∧\']'≠⍵}             ⍝ [find text between brackets] ignoring the rest
+split←⊃∘⌽ (≠⊆⊢)             ⍝ last item after split
+btwn ←{⍵/⍨(∨\'['=⍵)∧∧\']'≠⍵}⍝ [find text between brackets] ignoring the rest
 
-⍝ A list of modified files to be commited
+⍝ A list of modified files to be committed
 st←⊃run status
 modified←{':' split ⍵~' '}¨↓st⌿⍨∨/'modified'⍷st
 
