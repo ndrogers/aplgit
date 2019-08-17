@@ -28,7 +28,7 @@ results←{result←git ⍵⋄result}¨ commands
 log←⎕NS''
 :If 0<⎕SE.git.⎕NC'raw'
 :AndIf ⎕SE.git.raw
-  log.message←'Raw console output. To disable, set ⎕SE.git.raw←0'
+  log.(message raw)←'Raw console output. To disable, set ⎕SE.git.raw←0'
   _←results{⍎∊'log.'⍵'←⍺'}¨{⊃' '(≠⊆⊢)⍵}¨commands
   gui log
 :EndIf 
