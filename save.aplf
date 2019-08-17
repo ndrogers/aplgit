@@ -6,9 +6,9 @@ push  ←'push'
 
 ⍝ local helper functions
 split←⊃∘⌽ (≠⊆⊢)                          ⍝ last item after split
-files←{'Files Saved:'(↑⍵)}               ⍝ display a list of files to the user
-id   ←{'Id:' (' 'split ⍵)}               ⍝ display commit hash id to the user
-gui  ←{('message:' ⍺)⍪↑(id(⊃⊆⍵))(files (⊃⌽⊆⍵))}  ⍝ format results
+⍝files←{'Files Saved:'(↑⍵)}               ⍝ display a list of files to the user
+⍝id   ←{'Id:' (' 'split ⍵)}               ⍝ display commit hash id to the user
+⍝gui  ←{('message:' ⍺)⍪↑(id(⊃⊆⍵))(files (⊃⌽⊆⍵))}  ⍝ format results
 btwn ←{⍵/⍨(∨\'['=⍵)∧∧\']'≠⍵}             ⍝ [find text between brackets] ignoring the rest
 
 ⍝ A list of modified files to be commited
