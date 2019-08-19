@@ -13,9 +13,6 @@ defs←⎕NS defaults
 'defs'⎕NS options
 (shouldWatchDir dir name flatten)←defs⍎¨'shouldWatchDir' 'dir' 'name' 'flatten'
 
-:If defs.flatten
-  shouldWatchDir←1
-:EndIf
 ⍝⍝⍝ This branching code defines dir←→location of the repository
 ⍝⍝⍝ depending on repository name or directory location
 ⍝⍝⍝ TODO: Replace the existing early returns with proper error handling
