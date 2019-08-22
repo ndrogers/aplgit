@@ -1,7 +1,7 @@
-r←gui ns;display;names
+ r←gui ns;display;names;m
 
   ⍝ function takes a namespace
-  ⍝ displays the namespace 
+  ⍝ displays the namespace
   ⍝ not implemented
   ⍝ display should appear as follows
   ⍝ left column will display names in the namespace as 'name:'
@@ -19,9 +19,7 @@ r←gui ns;display;names
   ⍝│            │file5.aplf        │
   ⍝│            │file6.aplf        │
   ⍝└────────────┴──────────────────┘
-  display←↑{⍵ (↑ns⍎⍵)}¨
-  m←⊂'message' 
-  names←m, (m~⍨ns.⎕NL¯2) ⍝ message should be the first displayed
-  r←display names
-
-      
+ display←↑{⍵(↑ns⍎⍵)}¨
+ m←⊂'message'
+ names←m,(m~⍨ns.⎕NL ¯2) ⍝ message should be the first displayed
+ r←display names

@@ -1,37 +1,35 @@
-r←run cmds;⎕IO;user;u;pass;p;os;repo;git;remote;commit;host;push;_
-⎕IO←0
-commands←⊆cmds
-:If (0=⎕NC) '⎕SE.Link.Links'
-  ⎕←'Cannot execute git command: no repository is linked.'
-  →
-:EndIf
+ r←run cmds;⎕IO;user;u;pass;p;os;repo;git;remote;commit;host;push;commands;and;config;nl;info;keys;vals;results;message;raw;_
+ ⎕IO←0
+ commands←⊆cmds
+ :If (0=⎕NC)'⎕SE.Link.Links'
+     ⎕←'Cannot execute git command: no repository is linked.'
+     →
+ :EndIf
 
-os    ←'-64'~⍨⊃#⎕WG'APLVersion'
+ os←'-64'~⍨⊃# ⎕WG'APLVersion'
 ⍝ Add detect multiple linked directories
-repo  ←⊃⎕SE.Link.Links.dir
-and   ←(1+'Windows'≢os)/'&'
-git   ←{↑⎕SH S'cd {repo} {and} git ',⍵}
-config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
+ repo←⊃⎕SE.Link.Links.dir
+ and←(1+'Windows'≢os)/'&'
+ git←{↑⎕SH S'cd {repo} {and} git ',⍵}
+ config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
 
-:If ~∧/'user.name' 'user.email' ∊ config
-  nl←⎕UCS 13
-  info←S'Please ensure that your global git settings are configured.{nl}For more information, please vist:{nl}https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#_your_identity'
-  ⎕←info
-  :Return
-:EndIf
+ :If ~∧/'user.name' 'user.email'∊config
+     nl←⎕UCS 13
+     info←S'Please ensure that your global git settings are configured.{nl}For more information, please vist:{nl}https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#_your_identity'
+     ⎕←info
+     :Return
+ :EndIf
 
-(keys vals)←↓⍉config
-remote←(⊃vals⌷⍨⊂keys⍳⊂'remote.origin.url')
-host  ←∊{⍺'/'⍵}/1↓'/'(≠⊆⊢) remote
+ (keys vals)←↓⍉config
+ remote←(⊃vals⌷⍨⊂keys⍳⊂'remote.origin.url')
+ host←∊{⍺'/'⍵}/1↓'/'(≠⊆⊢)remote
 
-results←{result←git ⍵⋄result}¨ commands
+ results←{result←git ⍵ ⋄ result}¨commands
 
-:If (0<⎕SE.git.⎕NC'raw') 
-:AndIf 0<⎕NC 'log'
-:AndIf ⎕SE.git.raw
-  log.(message raw)←2⍴⊂'Raw console output. To disable, set ⎕SE.git.raw←0'
-  _←results{⍎∊'log.'⍵'←⍺'}¨{⊃' '(≠⊆⊢)⍵}¨commands
-:EndIf 
-r←results
-
-
+ :If (0<⎕SE.git.⎕NC'raw')
+ :AndIf 0<⎕NC'log'
+ :AndIf ⎕SE.git.raw
+     log.(message raw)←2⍴⊂'Raw console output. To disable, set ⎕SE.git.raw←0'
+     _←results{⍎∊'log.'⍵'←⍺'}¨{⊃' '(≠⊆⊢)⍵}¨commands
+ :EndIf
+ r←results

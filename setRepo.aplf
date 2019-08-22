@@ -1,53 +1,53 @@
-setRepo options;repos;dir;options;_ignore;names;pwd;cmd;⎕IO;defaults;defs;shouldWatchDir;dir;name;repo;isDir;isName
-⎕IO←0 
-⎕SE.git.raw←0
+ setRepo options;repos;dir;options;_ignore;names;pwd;cmd;⎕IO;defaults;defs;shouldWatchDir;dir;name;repo;isDir;isName;flatten
+ ⎕IO←0
+ ⎕SE.git.raw←0
 
 ⍝ ⍬←f R
 ⍝ R      ←→ a ⎕NS'' defining the following names
 ⍝ R.dir  ←→ directory of the repo
-⍝ R.name ←→ name of a repo defined in repos.json 
+⍝ R.name ←→ name of a repo defined in repos.json
 ⍝ R.shouldWatchDir←→ tells the link to watch dir if 1 or ns if not defined
 ⍝ at least one of R.(dir name) must be defined
-defaults←⎕JSON'{"shouldWatchDir":0,"dir":"","name":"","flatten":0}'
-defs←⎕NS defaults
-'defs'⎕NS options
-(shouldWatchDir dir name flatten)←defs⍎¨'shouldWatchDir' 'dir' 'name' 'flatten'
+ defaults←⎕JSON'{"shouldWatchDir":0,"dir":"","name":"","flatten":0}'
+ defs←⎕NS defaults
+ 'defs'⎕NS options
+ (shouldWatchDir dir name flatten)←defs⍎¨'shouldWatchDir' 'dir' 'name' 'flatten'
 
 ⍝⍝⍝ This branching code defines dir←→location of the repository
 ⍝⍝⍝ depending on repository name or directory location
 ⍝⍝⍝ TODO: Replace the existing early returns with proper error handling
-:If isDir←0<≢defs.dir
+ :If isDir←0<≢defs.dir
   ⍝ link the directory
-  :If ~⎕NEXISTS defs.dir
-    ⎕←S'Directory not found: {defs.dir}'
-    :Return
-  :EndIf
-  dir←defs.dir
-:ElseIf isName←0<≢defs.name
-  repo←defs.name
-  :If ~⎕NEXISTS 'repos.json' ⍝ repos.json doesn't exit
+     :If ~⎕NEXISTS defs.dir
+         ⎕←S'Directory not found: {defs.dir}'
+         :Return
+     :EndIf
+     dir←defs.dir
+ :ElseIf isName←0<≢defs.name
+     repo←defs.name
+     :If ~⎕NEXISTS'repos.json' ⍝ repos.json doesn't exit
     ⍝ repos.json must be a json file containing a json array
     ⍝[{"name":"blah", "path": "path/to/blah"}, {...}, ...]
-    cmd←('Windows'≡'-64'~⍨⊃#⎕WG'APLVersion')⌷'ls' 'dir'
-    pwd←⎕SH cmd
-    ⎕←S'Does not exist: {pwd}/repos.json'
-    :Return
-  :EndIf
-  repos←0 ⎕JSON⊃'UTF-8'⎕NGET'repos.json'
-  dir←(repos.name⍳⊂repo)⊃repos.path,⊂'' ⍝ find the path of the repo by name
+         cmd←('Windows'≡'-64'~⍨⊃# ⎕WG'APLVersion')⌷'ls' 'dir'
+         pwd←⎕SH cmd
+         ⎕←S'Does not exist: {pwd}/repos.json'
+         :Return
+     :EndIf
+     repos←0 ⎕JSON⊃'UTF-8'⎕NGET'repos.json'
+     dir←(repos.name⍳⊂repo)⊃repos.path,⊂'' ⍝ find the path of the repo by name
 
-  :If 0=≢dir ⍝ repos.json does not include the name found
-    names←∊{⍺','⍵}/repos.name
-    ⎕←↑S¨'Repository {repo} not found' 'Available repositories: {names}'
-    :Return
-  :EndIf
+     :If 0=≢dir ⍝ repos.json does not include the name found
+         names←∊{⍺','⍵}/repos.name
+         ⎕←↑S¨'Repository {repo} not found' 'Available repositories: {names}'
+         :Return
+     :EndIf
 
-:ElseIf ∧/~isDir isName
-  ⎕←'You must specify options.name or options.dir'
-  :Return
-:EndIf
+ :ElseIf ∧/~isDir isName
+     ⎕←'You must specify options.name or options.dir'
+     :Return
+ :EndIf
 
-options←⎕NS''
-options.flatten←defs.flatten
-options.watch←⊃shouldWatchDir⌷'ns' 'dir'
-_ignore←options ⎕SE.Link.Create # dir
+ options←⎕NS''
+ options.flatten←defs.flatten
+ options.watch←⊃shouldWatchDir⌷'ns' 'dir'
+ _ignore←options ⎕SE.Link.Create # dir
