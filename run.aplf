@@ -10,7 +10,7 @@
 ⍝ Add detect multiple linked directories
  repo←⊃⎕SE.Link.Links.dir
  and←(1+'Windows'≢os)/'&'
- git←{↑⎕SH S'cd {repo} {and} git --no-pager ',⍵}
+ git←{↑⎕SH 'cd ',repo,' ',and,' git --no-pager ',⍵}
  config←↑{'='(≠⊆⊢)⍵}¨↓git'config --list'
 
  :If ~∧/'user.name' 'user.email'∊config
