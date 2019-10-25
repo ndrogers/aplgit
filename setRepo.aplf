@@ -1,42 +1,37 @@
  setRepo options;repos;dir;options;_ignore;names;pwd;cmd;⎕IO;defaults;isDir;isName;isWin;index
- ⎕IO←0
- ⎕SE.git.raw←0
-
 ⍝ ⍬←f R
 ⍝ R      ←→ a ⎕NS'' defining the following names
 ⍝ R.dir  ←→ directory of the repo
 ⍝ R.name ←→ name of a repo defined in repos.json
 ⍝ R.shouldWatchDir←→ tells the link to watch dir if 1 or ns if not defined
 ⍝ at least one of R.(dir name) must be defined
+ ⎕IO←0
+ ⎕SE.git.raw←0
+
  has←{0<⍺.⎕NC ⍵}
- :If isDir←options has 'dir'
+ :If isDir←options has'dir'
      :If ~⎕NEXISTS options.dir
          ⎕←S'Directory not found: {options.dir}'
          :Return
      :EndIf
 
- :ElseIf isName←options has 'name'
-     :If ~⎕NEXISTS'repos.json' ⍝ repos.json doesn't exit
+ :ElseIf isName←options has'name'
+     :If ~⎕NEXISTS'repos.json'
          isWin←'Windows'≡'-64'~⍨⊃# ⎕WG'APLVersion'
-         cmd  ←⊃isWin⌷'pwd' 'cd'
-         pwd  ←⎕SH cmd
-         ⎕    ←S'Does not exist: {pwd}/repos.json'
+         cmd←⊃isWin⌷'pwd' 'cd'
+         pwd←⎕SH cmd
+         ⎕←S'Does not exist: {pwd}/repos.json'
          :Return
      :EndIf
 
-     repos  ←0 ⎕JSON⊃'UTF-8'⎕NGET'repos.json'
-     index  ←repos.name⍳⊂options.name
+     repos←0 ⎕JSON⊃'UTF-8'⎕NGET'repos.json'
+     index←repos.name⍳⊂options.name
      options←index⊃repos
-     
+
      :If ~⎕NEXISTS options.dir
          ⎕←S'Directory not found: {options.dir}'
          :Return
      :EndIf
-⍝     :If 0=≢dir ⍝ repos.json does not include the name found
-⍝         names←∊{⍺','⍵}/repos.name
-⍝         ⎕←↑S¨'Repository {repo} not found' 'Available repositories: {names}'
-⍝         :Return
-⍝     :EndIf
 
  :ElseIf ∧/~isDir isName
      ⎕←'You must specify options.name or options.dir'
